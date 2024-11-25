@@ -1,0 +1,21 @@
+body {
+  width: 400px;
+  min-height: 150px;
+  background-color: #fdfdfd;
+}
+
+ol {
+  line-height: 2;
+  list-style-type: "\1F44D";
+  margin-left: -15px;
+  margin-right: 10px;
+}
+
+li {
+  padding-left: 0.5rem;
+}
+
+a {
+  color: #444;
+  text-decoration: none;
+}
