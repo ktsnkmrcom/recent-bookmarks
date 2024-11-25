@@ -2,7 +2,7 @@ function bookmark() {
   chrome.bookmarks.getRecent(10, function (bookmarkTreeNodes) {
     const frag = document.createDocumentFragment();
 
-    for (let bookmarkNodes of bookmarkTreeNodes) {
+    for (const bookmarkNodes of bookmarkTreeNodes) {
       const li = document.createElement("li");
       const anchor = document.createElement("a");
 
