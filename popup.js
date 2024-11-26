@@ -1,4 +1,4 @@
-function recentBookmark() {
+function recentBookmarks() {
   chrome.bookmarks.getRecent(10, function (bookmarkTreeNodes) {
     const frag = document.createDocumentFragment();
 
@@ -22,5 +22,5 @@ function recentBookmark() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  recentBookmark();
+  recentBookmarks();
 });
