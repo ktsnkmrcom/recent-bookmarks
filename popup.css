@@ -1,21 +1,45 @@
 body {
   width: 400px;
   min-height: 150px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background-color: #fdfdfd;
 }
 
 ol {
-  line-height: 2;
-  list-style-type: "\1F44D";
+  line-height: 1.5;
+  list-style-type: square;
+  list-style-position: outside;
   margin-left: -15px;
   margin-right: 10px;
+  margin-bottom: 5px;
 }
 
 li {
   padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 a {
   color: #444;
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  color: #999;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1c1c1c;
+  }
+
+  a {
+    color: #ddd;
+  }
 }

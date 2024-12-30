@@ -1,9 +1,16 @@
 {
-  "name": "Recent Bookmarks",
+  "name": "test Recent Bookmarks",
   "description": "The last 10 bookmarks",
   "version": "0.0.0",
   "manifest_version": 3,
-  "permissions": ["bookmarks"],
+  "permissions": ["bookmarks", "favicon"],
+  "web_accessible_resources": [
+    {
+      "resources": ["_favicon/*"],
+      "matches": ["<all_urls>"],
+      "extension_ids": ["*"]
+    }
+  ],
   "action": {
     "default_title": "Recent Bookmarks",
     "default_icon": "icon.png",
