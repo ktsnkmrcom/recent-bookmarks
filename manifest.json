@@ -1,5 +1,5 @@
 {
-  "name": "test Recent Bookmarks",
+  "name": "Recent Bookmarks",
   "description": "The last 10 bookmarks",
   "version": "0.0.0",
   "manifest_version": 3,
