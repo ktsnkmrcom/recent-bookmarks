@@ -31,7 +31,7 @@ function dumpNode(bookmarkNode) {
     display: none;
     position: absolute;
     background-color: #333;
-    color: white;
+    color: #ddd;
     margin-right: 10px;
     padding: 5px;
     border-radius: 3px;
