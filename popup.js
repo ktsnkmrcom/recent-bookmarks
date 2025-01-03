@@ -75,7 +75,15 @@ function dumpNode(bookmarkNode) {
 
   function showTooltip(text) {
     tooltip.style.display = "block";
-    tooltip.textContent = text;
+    // x文字数以上の場合に改行を挿入する
+    if (text.length > 70) {
+      // 配列にしてtext[x]に改行文字挿入
+      text = [...text];
+      text.splice(69, 0, "<br />");
+      // 配列を文字列にもどす
+      text = text.join("");
+    }
+    tooltip.innerHTML = text;
     setTimeout(() => {
       tooltip.classList.add("visible");
     }, 1000);
@@ -112,3 +120,12 @@ function faviconURL(u) {
 document.addEventListener("DOMContentLoaded", function () {
   dumpBookmarks();
 });
+
+// iconをクリック時に動的に生成
+// const canvas = new OffscreenCanvas(16, 16);
+// const context = canvas.getContext("2d");
+// context.clearRect(0, 0, 16, 16);
+// context.fillStyle = "#0000ff";
+// context.fillRect(0, 0, 16, 16);
+// const imageData = context.getImageData(0, 0, 16, 16);
+// chrome.action.setIcon({imageData: imageData});
