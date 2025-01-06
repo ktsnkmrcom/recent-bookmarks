@@ -4,8 +4,6 @@ function dumpBookmarks() {
   });
 }
 
-let i;
-
 function dumpTreeNodes(bookmarkNodes) {
   let frag = document.createDocumentFragment();
   for (i = 0; i < bookmarkNodes.length; i++) {
