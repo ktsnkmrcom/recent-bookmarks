@@ -1,14 +1,30 @@
 function dumpBookmarks() {
-  chrome.bookmarks.getRecent(10, function (bookmarkTreeNodes) {
+  chrome.bookmarks.getRecent(20, function (bookmarkTreeNodes) {
     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
   });
 }
 
 function dumpTreeNodes(bookmarkNodes) {
   let frag = document.createDocumentFragment();
-  for (i = 0; i < bookmarkNodes.length; i++) {
-    frag.append(dumpNode(bookmarkNodes[i]));
+
+  // bookmark barを除外
+
+  let j = 0;
+  i = 0;
+  while (j < 10) {
+    if (bookmarkNodes[i].parentId !== "1") {
+      frag.append(dumpNode(bookmarkNodes[i]));
+      j++;
+      i++;
+    } else {
+      i++;
+    }
   }
+
+  // for (i = 0; i < bookmarkNodes.length; i++) {
+  //   frag.append(dumpNode(bookmarkNodes[i]));
+  // }
+
   return frag;
 }
 
@@ -73,7 +89,7 @@ function dumpNode(bookmarkNode) {
 
   function showTooltip(text) {
     tooltip.style.display = "block";
-    // x文字数以上の場合に改行を挿入する
+    // 70文字数以上の場合に改行を挿入する
     if (text.length > 70) {
       // 配列にしてtext[x]に改行文字挿入
       text = [...text];
@@ -108,6 +124,7 @@ function dumpNode(bookmarkNode) {
   return li;
 }
 
+// get favicon
 function faviconURL(u) {
   const url = new URL(chrome.runtime.getURL("/_favicon/"));
   url.searchParams.set("pageUrl", u); // this encodes the URL as well

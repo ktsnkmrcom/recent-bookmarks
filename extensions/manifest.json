@@ -1,6 +1,6 @@
 {
-  "name": "Recent Bookmarks",
-  "description": "The last 10 bookmarks",
+  "name": "Recent Bookmarks shortcuts",
+  "description": "The last 10 bookmarks shortcuts",
   "version": "0.0.0",
   "manifest_version": 3,
   "permissions": ["bookmarks", "favicon"],
@@ -12,7 +12,7 @@
     }
   ],
   "action": {
-    "default_title": "Recent Bookmarks",
+    "default_title": "Recent Bookmarks shortcuts",
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   }
