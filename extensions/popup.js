@@ -1,17 +1,26 @@
 function dumpBookmarks() {
-  chrome.bookmarks.getRecent(20, function (bookmarkTreeNodes) {
+  const candidateNum = 20;
+  chrome.bookmarks.getRecent(candidateNum).then(function (resp) {
+    const bookmarkTreeNodes = resp;
     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
   });
 }
+// コールバック
+// function dumpBookmarks() {
+// const candidateNum = 20;
+//   chrome.bookmarks.getRecent(candidateNum, function (bookmarkTreeNodes) {
+//     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
+//   });
+// }
 
 function dumpTreeNodes(bookmarkNodes) {
   let frag = document.createDocumentFragment();
 
   // bookmark barを除外
-
+  const displayNum = 10;
   let j = 0;
   i = 0;
-  while (j < 10) {
+  while (j < displayNum) {
     if (bookmarkNodes[i].parentId !== "1") {
       frag.append(dumpNode(bookmarkNodes[i]));
       j++;
@@ -20,7 +29,7 @@ function dumpTreeNodes(bookmarkNodes) {
       i++;
     }
   }
-
+  // bookmark barも含む（bookmarkNodes.length=candidateNum）
   // for (i = 0; i < bookmarkNodes.length; i++) {
   //   frag.append(dumpNode(bookmarkNodes[i]));
   // }
@@ -90,10 +99,11 @@ function dumpNode(bookmarkNode) {
   function showTooltip(text) {
     tooltip.style.display = "block";
     // 70文字数以上の場合に改行を挿入する
-    if (text.length > 70) {
-      // 配列にしてtext[x]に改行文字挿入
+    const lineBreaks = 70;
+    if (text.length > lineBreaks) {
+      // 配列にして改行文字挿入
       text = [...text];
-      text.splice(69, 0, "<br />");
+      text.splice(lineBreaks - 1, 0, "<br />");
       // 配列を文字列にもどす
       text = text.join("");
     }
