@@ -15,4 +15,4 @@ Chromeの拡張機能のデベロッパーモードをオンにしたうえでex
 
 ## License
 
-For personal programming practice. This program is free.
+For personal programming practice.
