@@ -1,38 +1,80 @@
 function dumpBookmarks() {
-  const candidateNum = 20;
-  chrome.bookmarks.getRecent(candidateNum).then(function (resp) {
+  const numOfItems = 20;
+  chrome.bookmarks.getRecent(numOfItems).then(function (resp) {
     const bookmarkTreeNodes = resp;
     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
   });
 }
 // コールバック
 // function dumpBookmarks() {
-// const candidateNum = 20;
-//   chrome.bookmarks.getRecent(candidateNum, function (bookmarkTreeNodes) {
+// const numOfItems = 20;
+//   chrome.bookmarks.getRecent(numOfItems, function (bookmarkTreeNodes) {
 //     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
 //   });
 // }
 
+// 含まないブックマークバーのフォルダ名：日本語では設定できない
+const excludeFolder = "New folder";
+
+let newFolderId;
+let newFolderIds;
+
+// 直でブックマークバーのtreeが取得できる：以降のchildrenも取得可
+chrome.bookmarks.getSubTree("1").then(function (resp) {
+  let subBookmarkNode = resp;
+  const bookmarkbar = subBookmarkNode[0].children;
+
+  //動作中s付き
+  // 複数のnewfolderのindexを取得
+  let newfolderIndexs = [];
+  bookmarkbar.filter(function (object, index) {
+    if (object.title === excludeFolder) {
+      newfolderIndexs.push(index);
+    }
+  });
+
+  if (newfolderIndexs.length !== 0) {
+    newFolderIds = [];
+    for (let k = 0; k < newfolderIndexs.length; k++) {
+      subBookmarkNode[0].children[newfolderIndexs[k]].children.map((object) => {
+        return newFolderIds.push(object.id);
+      });
+    }
+  }
+});
+
 function dumpTreeNodes(bookmarkNodes) {
   let frag = document.createDocumentFragment();
 
-  // bookmark barを除外
-  const displayNum = 10;
+  const numOfDisplay = 10;
   let j = 0;
   i = 0;
-  while (j < displayNum) {
-    if (bookmarkNodes[i].parentId !== "1") {
-      frag.append(dumpNode(bookmarkNodes[i]));
-      j++;
-      i++;
+  let isId;
+  while (j < numOfDisplay) {
+    if (newFolderIds) {
+      isId = newFolderIds.some(function (value) {
+        return value === bookmarkNodes[i].id;
+      });
+    }
+
+    if (isId) {
+      if (bookmarkNodes[i].parentId !== "1" && isId == false) {
+        frag.append(dumpNode(bookmarkNodes[i]));
+        j++;
+        i++;
+      } else {
+        i++;
+      }
     } else {
-      i++;
+      if (bookmarkNodes[i].parentId !== "1") {
+        frag.append(dumpNode(bookmarkNodes[i]));
+        j++;
+        i++;
+      } else {
+        i++;
+      }
     }
   }
-  // bookmark barも含む（bookmarkNodes.length=candidateNum）
-  // for (i = 0; i < bookmarkNodes.length; i++) {
-  //   frag.append(dumpNode(bookmarkNodes[i]));
-  // }
 
   return frag;
 }
@@ -137,7 +179,7 @@ function dumpNode(bookmarkNode) {
 // get favicon
 function faviconURL(u) {
   const url = new URL(chrome.runtime.getURL("/_favicon/"));
-  url.searchParams.set("pageUrl", u); // this encodes the URL as well
+  url.searchParams.set("pageUrl", u); // urlもエンコードが必要らしい？
   url.searchParams.set("size", "16");
   return url.toString();
 }
@@ -145,12 +187,3 @@ function faviconURL(u) {
 document.addEventListener("DOMContentLoaded", function () {
   dumpBookmarks();
 });
-
-// iconをクリック時に動的に生成
-// const canvas = new OffscreenCanvas(16, 16);
-// const context = canvas.getContext("2d");
-// context.clearRect(0, 0, 16, 16);
-// context.fillStyle = "#0000ff";
-// context.fillRect(0, 0, 16, 16);
-// const imageData = context.getImageData(0, 0, 16, 16);
-// chrome.action.setIcon({imageData: imageData});
