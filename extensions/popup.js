@@ -1,5 +1,5 @@
 function dumpBookmarks() {
-  const numOfItems = 20;
+  const numOfItems = 50;
   chrome.bookmarks.getRecent(numOfItems).then(function (resp) {
     const bookmarkTreeNodes = resp;
     document.querySelector("#recent").append(dumpTreeNodes(bookmarkTreeNodes));
